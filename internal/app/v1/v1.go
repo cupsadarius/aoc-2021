@@ -2,6 +2,8 @@
 package v1
 
 import (
+	day1 "aoc/internal/app/aoc/day1"
+	day2 "aoc/internal/app/aoc/day2"
 	cli "aoc/internal/utils/cli"
 	"aoc/internal/utils/convertors"
 	"aoc/internal/utils/file"
@@ -9,9 +11,9 @@ import (
 	"aoc/internal/utils/version"
 	"context"
 	"fmt"
-	aoc "aoc/internal/app/aoc"
-	jsoniter "github.com/json-iterator/go"
 	"strconv"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -21,11 +23,13 @@ const appID = "aoc2021"
 var configFile string
 var inputFile string
 var part string
+
 // Run the application
 func Run(ctx context.Context) error {
 	cli.Init(appID, "Advent of Code 2021")
 	_ = cli.AddCommand("version", "Get the application version and Git commit SHA", logVersionDetails)
-	_ = cli.AddCommand("day-1", "Run Day 1", day1)
+	_ = cli.AddCommand("day-1", "Run Day 1", solveDay1)
+	_ = cli.AddCommand("day-2", "Run Day 2", solveDay2)
 	cli.AssignStringFlag(&configFile, "config", "", "config file (default is ./.config.yaml)")
 	cli.AssignStringFlag(&inputFile, "input", "", "input file (default is ./inputs/input.txt)")
 	cli.AssignStringFlag(&part, "part", "", "solution part")
@@ -36,7 +40,7 @@ func Run(ctx context.Context) error {
 	}
 
 	logger.Init(logger.Config{
-		Level: cfg.Logger.Level,
+		Level:  cfg.Logger.Level,
 		Source: cfg.Logger.Source,
 		Format: cfg.Logger.Format,
 	})
@@ -44,16 +48,29 @@ func Run(ctx context.Context) error {
 	return cli.Run(ctx)
 }
 
-
-func day1(parentCtx context.Context) {
+func solveDay1(parentCtx context.Context) {
 	log := logger.New("aoc2021", "Day 1")
 	input := file.ReadFile(inputFile)
 	var result int
 	switch part {
 	case "1":
-		result = aoc.SolveDay1Part1(convertors.GetStringListAsInt(input))
+		result = day1.Part1(convertors.GetStringListAsInt(input))
 	case "2":
-		result = aoc.SolveDay1Part2(convertors.GetStringListAsInt(input))
+		result = day1.Part2(convertors.GetStringListAsInt(input))
+	}
+
+	log.Info("Day 1 Part " + part + ": " + strconv.Itoa(result))
+}
+
+func solveDay2(parentCtx context.Context) {
+	log := logger.New("aoc2021", "Day 2")
+	input := file.ReadFile(inputFile)
+	var result int
+	switch part {
+	case "1":
+		result = day2.Part1(convertors.GetAsHeading(input))
+	case "2":
+		result = day2.Part2(convertors.GetAsHeading(input))
 	}
 
 	log.Info("Day 1 Part " + part + ": " + strconv.Itoa(result))

@@ -9,3 +9,4 @@ build/
 .vscode
 #/.config.yml
 go.sum
+inputs/input.txt
