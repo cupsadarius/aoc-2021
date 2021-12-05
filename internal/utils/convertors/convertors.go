@@ -28,3 +28,16 @@ func GetAsHeading(input []string) []types.Heading {
 	}
 	return actions
 }
+
+func GetAsBytes(input []string) [][]int {
+	bytes := [][]int{}
+	for _, entry := range input {
+		digits := []int{}
+		for _, char := range strings.Split(entry, "") {
+			digit, _ := strconv.Atoi(char)
+			digits = append(digits, digit)
+		}
+		bytes = append(bytes, digits)
+	}
+	return bytes
+}

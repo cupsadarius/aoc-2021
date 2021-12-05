@@ -4,6 +4,7 @@ package v1
 import (
 	day1 "aoc/internal/app/aoc/day1"
 	day2 "aoc/internal/app/aoc/day2"
+	"aoc/internal/app/aoc/day3"
 	cli "aoc/internal/utils/cli"
 	"aoc/internal/utils/convertors"
 	"aoc/internal/utils/file"
@@ -30,6 +31,7 @@ func Run(ctx context.Context) error {
 	_ = cli.AddCommand("version", "Get the application version and Git commit SHA", logVersionDetails)
 	_ = cli.AddCommand("day-1", "Run Day 1", solveDay1)
 	_ = cli.AddCommand("day-2", "Run Day 2", solveDay2)
+	_ = cli.AddCommand("day-3", "Run Day 3", solveDay3)
 	cli.AssignStringFlag(&configFile, "config", "", "config file (default is ./.config.yaml)")
 	cli.AssignStringFlag(&inputFile, "input", "", "input file (default is ./inputs/input.txt)")
 	cli.AssignStringFlag(&part, "part", "", "solution part")
@@ -73,7 +75,21 @@ func solveDay2(parentCtx context.Context) {
 		result = day2.Part2(convertors.GetAsHeading(input))
 	}
 
-	log.Info("Day 1 Part " + part + ": " + strconv.Itoa(result))
+	log.Info("Day 2 Part " + part + ": " + strconv.Itoa(result))
+}
+
+func solveDay3(parentCtx context.Context) {
+	log := logger.New("aoc2021", "Day 3")
+	input := file.ReadFile(inputFile)
+	var result int64
+	switch part {
+	case "1":
+		result = day3.Part1(convertors.GetAsBytes(input))
+	case "2":
+		result = day3.Part2(convertors.GetAsBytes(input))
+	}
+
+	log.Info("Day 3 Part " + part + ": " + strconv.Itoa(int(result)))
 }
 
 func logVersionDetails(_ context.Context) {
