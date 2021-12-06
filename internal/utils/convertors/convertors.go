@@ -1,7 +1,7 @@
 package convertors
 
 import (
-	types "aoc/internal/app/aoc/types"
+	"aoc/internal/app/aoc/types"
 	"strconv"
 	"strings"
 )
@@ -40,4 +40,34 @@ func GetAsBytes(input []string) [][]int {
 		bytes = append(bytes, digits)
 	}
 	return bytes
+}
+
+func GetAsBoards(input []string) ([]int, []types.Bingo) {
+	sequence := []int{}
+	for _, entry := range strings.Split(input[0], ",") {
+		value, _ := strconv.Atoi(entry)
+		sequence = append(sequence, value)
+	}
+
+	boards := []types.Bingo{}
+	slice := input[1:]
+	for index := 0; index < len(slice)-5; index += 6 {
+		board := types.Bingo{
+			Board:     make([][]types.BoardCell, 5),
+			Completed: false,
+		}
+		for i := 1; i <= 5; i++ {
+			for _, entry := range strings.Split(slice[index+i], " ") {
+				if entry == "" {
+					continue
+				}
+				value, _ := strconv.Atoi(entry)
+				board.Board[i-1] = append(board.Board[i-1], types.BoardCell{Value: value, Marked: false})
+			}
+		}
+
+		boards = append(boards, board)
+	}
+
+	return sequence, boards
 }
