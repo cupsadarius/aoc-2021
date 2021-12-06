@@ -6,6 +6,7 @@ import (
 	day2 "aoc/internal/app/aoc/day2"
 	day3 "aoc/internal/app/aoc/day3"
 	day4 "aoc/internal/app/aoc/day4"
+	"aoc/internal/app/aoc/day5"
 	cli "aoc/internal/utils/cli"
 	"aoc/internal/utils/convertors"
 	"aoc/internal/utils/file"
@@ -34,6 +35,7 @@ func Run(ctx context.Context) error {
 	_ = cli.AddCommand("day-2", "Run Day 2", solveDay2)
 	_ = cli.AddCommand("day-3", "Run Day 3", solveDay3)
 	_ = cli.AddCommand("day-4", "Run Day 4", solveDay4)
+	_ = cli.AddCommand("day-5", "Run Day 5", solveDay5)
 	cli.AssignStringFlag(&configFile, "config", "", "config file (default is ./.config.yaml)")
 	cli.AssignStringFlag(&inputFile, "input", "", "input file (default is ./inputs/input.txt)")
 	cli.AssignStringFlag(&part, "part", "", "solution part")
@@ -106,6 +108,20 @@ func solveDay4(parentCtx context.Context) {
 	}
 
 	log.Info("Day 4 Part " + part + ": " + strconv.Itoa(int(result)))
+}
+
+func solveDay5(parentCtx context.Context) {
+	log := logger.New("aoc2021", "Day 5")
+	input := file.ReadFile(inputFile)
+	var result int
+	switch part {
+	case "1":
+		result = day5.Part1(convertors.GetAsLines(input))
+	case "2":
+		result = day5.Part2(convertors.GetAsLines(input))
+	}
+
+	log.Info("Day 5 Part " + part + ": " + strconv.Itoa(int(result)))
 }
 
 func logVersionDetails(_ context.Context) {

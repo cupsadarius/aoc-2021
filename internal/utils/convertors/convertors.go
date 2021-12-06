@@ -71,3 +71,20 @@ func GetAsBoards(input []string) ([]int, []types.Bingo) {
 
 	return sequence, boards
 }
+
+func GetAsLines(input []string) []types.Line {
+	lines := []types.Line{}
+	for _, entry := range input {
+		words := strings.Split(entry, " -> ")
+		points := make([]types.Point, 2)
+		for index, word := range words {
+			coords := strings.Split(word, ",")
+			x, _ := strconv.Atoi(coords[0])
+			y, _ := strconv.Atoi(coords[1])
+			points[index] = types.Point{X: x, Y: y, Value: 0}
+		}
+		lines = append(lines, types.Line{A: points[0], B: points[1]})
+	}
+
+	return lines
+}
